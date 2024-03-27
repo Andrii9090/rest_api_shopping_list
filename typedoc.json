@@ -1,0 +1,9 @@
+{
+    "entryPoints": ["./src"],
+    "out": "./docs",
+    "name": "API Documentation",
+    "tsconfig": "./tsconfig.json",
+    "jsDocCompatibility": {
+        "exampleTag": true
+    }
+}

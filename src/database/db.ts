@@ -6,7 +6,7 @@ import ListUser from "./models/listUser.model";
 import UserAccessCode from "./models/userAccessCode.model";
 import config from "../config";
 
-const DB_NAME = process.env['PRODUCTION'] == 'production' ? process.env['DB_NAME'] ? process.env['DB_NAME'] : '' : 'list_app_test'
+const DB_NAME = config.production ? process.env['DB_NAME'] ? process.env['DB_NAME'] : '' : 'list_app_test'
 const DB_USER = process.env['DB_USER'] ? process.env['DB_USER'] : 'admin'
 const DB_PASSWORD = process.env['DB_PASSWORD'] ? process.env['DB_PASSWORD'] : ''
 

@@ -1,4 +1,5 @@
 import winston, { createLogger, transports } from "winston"
+import config from "./config"
 
 const logLevels = {
     fatal: 0,
@@ -9,7 +10,7 @@ const logLevels = {
 }
 
 export default createLogger({
-    level: 'debug',
+    level: config.production ? 'warn' : 'debug',
     levels: logLevels,
     transports: [new transports.Console({ format: winston.format.simple(), })]
 })

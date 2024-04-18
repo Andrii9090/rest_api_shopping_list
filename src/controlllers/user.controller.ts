@@ -54,14 +54,14 @@ class UserController {
         }
     }
     private generateToken(id: number) {
-        const mysecretkey = process.env.TOKEN_SECRET ? process.env.TOKEN_SECRET : '';
+        const mysecretkey = process.env['TOKEN_SECRET'] ? process.env['TOKEN_SECRET'] : 'fdsghjkgfdsafgjynhbgcvx';
 
         const payload = {
             id: id,
         };
 
         return jsonwebtoken.sign(payload, mysecretkey, {
-            expiresIn: "120d",
+            expiresIn: "360d",
         })
     }
 

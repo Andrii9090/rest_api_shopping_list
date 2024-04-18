@@ -6,6 +6,7 @@ import ListUser from "./listUser.model";
 @Table({
     tableName: 'lists',
     modelName: 'List',
+    timestamps: true
 })
 class List extends Model {
     @Column({
@@ -16,7 +17,8 @@ class List extends Model {
 
     @ForeignKey(() => User)
     @Column({
-        type: DataType.INTEGER
+        type: DataType.INTEGER,
+        unique: false
     })
     declare creator_id: number
 

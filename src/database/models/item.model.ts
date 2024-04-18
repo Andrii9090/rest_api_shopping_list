@@ -1,13 +1,14 @@
-import { Column, DataType, ForeignKey, Model, Table } from "sequelize-typescript"
+import { Column, DataType, ForeignKey, Index, Model, Table } from "sequelize-typescript"
 import List from './list.model'
 import User from './user.model'
 
 @Table({
     tableName: 'items',
-    modelName: 'Item'
+    modelName: 'Item',
+    timestamps: true
 })
 class Item extends Model {
-
+    @Index
     @Column({
         type: DataType.STRING,
         allowNull: false

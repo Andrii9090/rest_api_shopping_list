@@ -2,6 +2,7 @@ import express from "express"
 import router from "./routers";
 
 const app = express()
+app.disable('etag')
 app.use(express.json())
 app.use('/api', router)
 

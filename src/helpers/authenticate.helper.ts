@@ -1,8 +1,9 @@
 import { NextFunction, Response, Request } from "express"
-import logger from "../logger"
 import User from "../database/models/user.model"
 
 import jsonwebtoken from 'jsonwebtoken'
+import logger from "../logger"
+import { log } from "console"
 
 
 export interface AuthRequest extends Request {
@@ -21,16 +22,20 @@ const getDecodedUserData = (token: string): UserDecodedType => {
 const isAutentificate = (req: Request, res: Response, next: NextFunction) => {
     if (req.headers.authorization) {
         const token = req.headers.authorization.replace('Bearer ', '')
-        try {
-            (req as AuthRequest).userId = getDecodedUserData(token).id
-            next()
-        } catch (error) {
-            (req as AuthRequest).userId = undefined
-            res.status(401)
-            res.send({ isError: true, msg: 'Not autorized!' })
-        }
-    }else {
-        res.status(401)
+            const userId = getDecodedUserData(token).id
+            User.findByPk(userId)
+                .then((user) => {
+                    if (user) {
+                        (req as AuthRequest).userId = user.id
+                        next()
+                    } else {
+                        res.status(401)
+                        res.send({ isError: true, msg: 'Not autorized!' })
+                    }
+                })
+        
+    } else {
+        res.status(401) 
         res.send({ isError: true, msg: 'Not autorized!' })
     }
 }

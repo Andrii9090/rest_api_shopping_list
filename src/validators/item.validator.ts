@@ -8,8 +8,6 @@ const itemValidator = Joi.object({
     list_id: Joi.number().required(),
     is_active: Joi.boolean(),
     is_delete: Joi.boolean(),
-    image: Joi.string()
-
 })
 
 export default itemValidator

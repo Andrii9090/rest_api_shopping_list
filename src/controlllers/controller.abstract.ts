@@ -5,6 +5,8 @@ import { ParsedQs } from "qs";
 import { separateQueryParam } from "../helpers/itemsLimitParse.helper";
 import { ModelCtor } from "sequelize-typescript";
 import { Model } from "sequelize/types/model";
+import { AuthRequest } from "../helpers/authenticate.helper";
+import { Op } from "sequelize";
 
 export type TypeResponse = {
     isError: boolean,
@@ -29,7 +31,7 @@ abstract class Controller {
                 this.db
                     .update({ ...req.body }, { where: { id: Number(req.params.id) } })
                     .then(async () => {
-                        const data = await this.db.findByPk(Number(req.params.id))
+                        const data = await this.db.findByPk(Number(req.params.id), { attributes: ['id', 'title', 'createdAt', 'is_active'] })
                         this.sendResponse(res, {
                             isError: false, data
                         })
@@ -60,7 +62,7 @@ abstract class Controller {
     protected getFilters(query: ParsedQs): { where: object, offset: number | undefined, limit: number | undefined } {
         const where: ConditionsObjectType = {}
         let pagination = {
-            limit: 50,
+            limit: 150,
             offset: 0
         }
         // Iterate over each key in query
@@ -70,7 +72,8 @@ abstract class Controller {
                 pagination = separateQueryParam(query[key] as string)
                 continue
             }
-            let value: unknown = query[key]?.toString().trim()
+
+            let value: string | boolean | undefined = query[key]?.toString().trim()
             // If value is not empty then add it to where object
             if (value) {
                 // If value is 'true' or 'false' change it to boolean
@@ -80,7 +83,13 @@ abstract class Controller {
                 if (value === 'false') {
                     value = false
                 }
-                where[key as keyof ConditionsObjectType] = value
+                if (key === 'q') {
+                    where['title'] = {
+                        [Op.iLike]: '%'+value + '%',
+                    }
+                } else {
+                    where[key as keyof ConditionsObjectType] = value
+                }
             }
         }
 
@@ -102,13 +111,13 @@ abstract class Controller {
 
     protected async sendResponse(res: Response, data: TypeResponse, msg?: string) {
         if (data.isError) {
-            res.status(400)
+            res.status(400).send(data)
             if (msg) {
                 logger.error(msg.toString())
             }
+        } else {
+            res.send(data)
         }
-        res.setHeader('Content-Type', 'application/json')
-        res.json(data)
     }
 }
 

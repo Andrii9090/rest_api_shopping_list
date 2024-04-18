@@ -1,13 +1,11 @@
-import { configDotenv } from "dotenv"
 import app from "./app"
 import initDb from "./database/db"
-
-configDotenv()
+import config from "./config"
 
 const db = initDb()
 
-app.listen(process.env.PORT, () => {
-    console.log('Server started on port ' + process.env.PORT)
+app.listen(config.port, () => {
+    console.log('Server started on port ' + config.port)
 })
 
 export {

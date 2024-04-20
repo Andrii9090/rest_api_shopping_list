@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "nodemon",
     "docs": "typedoc --options './typedoc.json' --entryPointStrategy expand ./src",
-    "test": "jest --forceExit --detectOpenHandles"
+    "test": "jest --forceExit --detectOpenHandles",
+    "build": "tsc",
+    "start": "node ./dist/main.js"
   },
   "keywords": [],
   "author": "",

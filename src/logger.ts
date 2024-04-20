@@ -10,7 +10,7 @@ const logLevels = {
 }
 
 export default createLogger({
-    level: config.production ? 'warn' : 'debug',
+    level: config.production ? 'error' : 'debug',
     levels: logLevels,
     transports: [new transports.Console({ format: winston.format.simple(), }), new transports.File({ filename: 'error.log', level: 'error' })],
 })

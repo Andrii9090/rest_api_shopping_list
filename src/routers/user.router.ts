@@ -6,10 +6,10 @@ const router = Router()
 
 const controller = UserController
 
-router.post('/', controller.createUser.bind(controller))
-router.use(isAutentificate).get('/', controller.getUserData.bind(controller))
-router.use(isAutentificate).put('/', controller.update.bind(controller))
 router.post('/login', controller.login.bind(controller))
-router.use(isAutentificate).get('/access-code', controller.generateAccessCode.bind(controller))
+router.get('/access-code', isAutentificate, controller.generateAccessCode.bind(controller))
+router.post('/', controller.createUser.bind(controller))
+router.put('/', isAutentificate,controller.update.bind(controller))
+router.get('/', isAutentificate, controller.getUserData.bind(controller))
 
 export default router

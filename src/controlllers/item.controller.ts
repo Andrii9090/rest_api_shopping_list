@@ -146,7 +146,7 @@ class ItemController extends Controller {
             .resize({ width: 128, withoutEnlargement: true })
             .toFormat('jpeg')
             .jpeg({ quality: 80, force: true })
-            .toFile(path.join(config.imagePath, 'thumbnail', imageName))
+            .toFile(path.join(config.imagePath, 'images', 'thumbnail', imageName))
 
 
         sharp(path.join(config.imagePath, originalName))

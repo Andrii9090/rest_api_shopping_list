@@ -142,20 +142,20 @@ class ItemController extends Controller {
         }
     }
     private async resize(originalName: string, imageName: string, res: Response) {
-        sharp(path.resolve(config.imagePath, originalName))
+        sharp(path.join(config.imagePath, originalName))
             .resize({ width: 128, withoutEnlargement: true })
             .toFormat('jpeg')
             .jpeg({ quality: 80, force: true })
-            .toFile(path.resolve(config.imagePath, 'thumbnail', imageName))
+            .toFile(path.join(config.imagePath, 'thumbnail', imageName))
 
 
-        sharp(path.resolve(config.imagePath, originalName))
+        sharp(path.join(config.imagePath, originalName))
             .resize({ width: 1280, withoutEnlargement: true })
             .toFormat('jpeg')
             .jpeg({ quality: 80, force: true })
-            .toFile(path.resolve(config.imagePath, imageName))
+            .toFile(path.join(config.imagePath, imageName))
             .then(() => {
-                fs.unlink(path.resolve(config.imagePath, originalName), () => { })
+                fs.unlink(path.join(config.imagePath, originalName), () => { })
             })
 
     }
@@ -168,8 +168,8 @@ class ItemController extends Controller {
             const imageName = item.image
             item.image = null
             item.save()
-            fs.unlink(path.resolve(config.imagePath, imageName), () => { })
-            fs.unlink(path.resolve(config.imagePath, 'thumbnail', imageName), () => { })
+            fs.unlink(path.join(config.imagePath, imageName), () => { })
+            fs.unlink(path.join(config.imagePath, 'thumbnail', imageName), () => { })
             this.sendResponse(res, { isError: false, data: item.dataValues })
         } else {
             this.sendResponse(res, { isError: true })
@@ -178,7 +178,7 @@ class ItemController extends Controller {
 
     private async sendThumbnail(imageName: string, res: Response) {
         try {
-            const dataIMg = await imageToBase64(path.resolve(config.imagePath, 'thumbnail', `${imageName}`))
+            const dataIMg = await imageToBase64(path.join(config.imagePath, 'thumbnail', `${imageName}`))
             res.send('data:image/jpeg;base64,' + dataIMg)
         } catch (error) {
             console.log(error)
@@ -189,7 +189,7 @@ class ItemController extends Controller {
 
     private async sendImage(imageName: string, res: Response) {
         try {
-            const dataIMg = await imageToBase64(path.resolve(config.imagePath, `${imageName}`))
+            const dataIMg = await imageToBase64(path.join(config.imagePath, `${imageName}`))
             res.send('data:image/jpeg;base64,' + dataIMg)
         } catch (error) {
             logger.error(error)

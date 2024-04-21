@@ -178,7 +178,7 @@ class ItemController extends Controller {
 
     private async sendThumbnail(imageName: string, res: Response) {
         try {
-            const dataIMg = await imageToBase64(path.join(config.imagePath, 'image','thumbnail', `${imageName}`))
+            const dataIMg = await imageToBase64(path.join(config.imagePath, 'images','thumbnail', `${imageName}`))
             res.send('data:image/jpeg;base64,' + dataIMg)
         } catch (error) {
             console.log(error)

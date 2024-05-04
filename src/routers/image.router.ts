@@ -1,4 +1,4 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import controller from "../controlllers/item.controller";
 import isAutentificate from "../helpers/authenticate.helper";
 import multer from "multer";

@@ -69,6 +69,10 @@ class UserController {
         this.sendResponse(res, { isError: false, msg: 'User logged out' })
     }
 
+    async resetPassword(req: Request, res: Response) {
+        this.sendResponse(res, { isError: false, msg: 'Password reset' })
+    }
+
     async generateAccessCode(req: Request, res: Response) {
         const useCode = await UserAccessCode.findOne({ where: { user_id: (req as AuthRequest).userId } })
 

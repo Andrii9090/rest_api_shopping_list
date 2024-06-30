@@ -7,9 +7,9 @@ import imageRouter from "./image.router";
 
 const router = Router()
 
-router.use('list', listRouter)
-router.use('item', itemRouter)
-router.use('image', imageRouter)
-router.use('user', userRouter)
+router.use('/list', listRouter)
+router.use('/item', itemRouter)
+router.use('/image', imageRouter)
+router.use('/user', userRouter)
 
 export default router

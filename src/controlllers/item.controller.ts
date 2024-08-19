@@ -94,6 +94,8 @@ class ItemController extends Controller {
                                 ...item.dataValues,
                                 image: item.dataValues.image ? this.getImageUrl(item.dataValues.id) : null,
                             }
+                        } else {
+                            return {}
                         }
                     })
 

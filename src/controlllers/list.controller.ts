@@ -34,7 +34,7 @@ class ListController extends Controller {
             this.sendResponse(res, { isError: true })
         }
     }
- 
+
     async update(req: Request, res: Response): Promise<void> {
         if (await userHasPermission(Number((req as AuthRequest).userId), Number(req.params.id))) {
             super.update(req, res)
@@ -82,7 +82,7 @@ class ListController extends Controller {
                             .then((list) => {
                                 if (list) {
                                     ListUser.create({ user_id: code.user_id, list_id: req.params.id })
-                                        .then((data) => {
+                                        .then(() => {
                                             code.destroy()
                                             this.sendResponse(res, { isError: false, msg: 'User added to list' })
                                         })

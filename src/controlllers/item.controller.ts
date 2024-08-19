@@ -86,13 +86,15 @@ class ItemController extends Controller {
                 order: [['is_active', 'DESC'], ['updatedAt', 'DESC']]
             })
                 .then((data) => {
-            // console.log(data)
-
+                    const dataItems = new Set()
                     const dataTosend = data.map((item) => {
-                        return {
-                            ...item.dataValues,
-                            image: item.dataValues.image ? this.getImageUrl(item.dataValues.id) : null,
-                        }
+                        if (!dataItems.has(item.dataValues.title))
+                            dataItems.add(item.dataValues.title)
+                        if (!dataItems.has(item.dataValues.title))
+                            return {
+                                ...item.dataValues,
+                                image: item.dataValues.image ? this.getImageUrl(item.dataValues.id) : null,
+                            }
                     })
                     this.sendResponse(res, { isError: false, data: dataTosend })
                 })
@@ -177,7 +179,7 @@ class ItemController extends Controller {
 
     private async sendThumbnail(imageName: string, res: Response) {
         try {
-            const dataIMg = await imageToBase64(path.join(config.imagePath, 'images','thumbnail', `${imageName}`))
+            const dataIMg = await imageToBase64(path.join(config.imagePath, 'images', 'thumbnail', `${imageName}`))
             res.send('data:image/jpeg;base64,' + dataIMg)
         } catch (error) {
             console.log(error)

@@ -88,13 +88,15 @@ class ItemController extends Controller {
                 .then((data) => {
                     const dataItems = new Set()
                     const dataTosend = data.map((item) => {
-                        if (!dataItems.has(item.dataValues.title))
+                        if (!dataItems.has(item.dataValues.title)) {
                             dataItems.add(item.dataValues.title)
-                        return {
-                            ...item.dataValues,
-                            image: item.dataValues.image ? this.getImageUrl(item.dataValues.id) : null,
+                            return {
+                                ...item.dataValues,
+                                image: item.dataValues.image ? this.getImageUrl(item.dataValues.id) : null,
+                            }
                         }
                     })
+
                     this.sendResponse(res, { isError: false, data: dataTosend })
                 })
                 .catch((e) => this.sendResponse(res, { isError: true }, e))

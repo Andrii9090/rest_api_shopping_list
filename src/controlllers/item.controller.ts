@@ -90,11 +90,10 @@ class ItemController extends Controller {
                     const dataTosend = data.map((item) => {
                         if (!dataItems.has(item.dataValues.title))
                             dataItems.add(item.dataValues.title)
-                        if (!dataItems.has(item.dataValues.title))
-                            return {
-                                ...item.dataValues,
-                                image: item.dataValues.image ? this.getImageUrl(item.dataValues.id) : null,
-                            }
+                        return {
+                            ...item.dataValues,
+                            image: item.dataValues.image ? this.getImageUrl(item.dataValues.id) : null,
+                        }
                     })
                     this.sendResponse(res, { isError: false, data: dataTosend })
                 })

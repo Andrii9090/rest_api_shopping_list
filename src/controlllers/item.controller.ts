@@ -10,6 +10,7 @@ import { userHasPermission } from "../helpers/permission.helper"
 import { AuthRequest } from "../helpers/authenticate.helper"
 import config from "../config"
 import imageToBase64 from "image-to-base64"
+import { Model } from "sequelize-typescript"
 
 
 class ItemController extends Controller {
@@ -86,19 +87,7 @@ class ItemController extends Controller {
                 order: [['is_active', 'DESC'], ['updatedAt', 'DESC']]
             })
                 .then((data) => {
-                    const dataItems: string[] = []
-                    const dataTosend = data.map((item) => {
-                        if (dataItems.indexOf(item.dataValues.title) === -1) {
-                            dataItems.push(item.dataValues.title)
-                            return {
-                                ...item.dataValues,
-                                image: item.dataValues.image ? this.getImageUrl(item.dataValues.id) : null,
-                            }
-                        } else {
-                            return {}
-                        }
-                    })
-
+                    const dataTosend = this.filteredData(data)
                     this.sendResponse(res, { isError: false, data: dataTosend })
                 })
                 .catch((e) => this.sendResponse(res, { isError: true }, e))
@@ -107,6 +96,21 @@ class ItemController extends Controller {
         }
     }
 
+    filteredData(data: Model<any, any>[]) {
+        const dataItems: string[] = []
+
+        const filteredData = data.map((item) => {
+            if (dataItems.indexOf(item.dataValues.title) === -1) {
+                dataItems.push(item.dataValues.title)
+                return {
+                    ...item.dataValues,
+                    image: item.dataValues.image ? this.getImageUrl(item.dataValues.id) : null,
+                }
+            }
+        })
+
+        return filteredData
+    }
 
     async saveImage(req: Request, res: Response) {
         const item = await Item.findByPk(req.params.id, { attributes: ['id', 'image', 'list_id'] })

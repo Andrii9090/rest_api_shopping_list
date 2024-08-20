@@ -106,9 +106,9 @@ class ItemController extends Controller {
         }
     }
 
-    filteredData(data: Model<any, any>[], titles: string[]) {
+    filteredData(data: any[], titles: string[]) {
 
-        return data.filter((item) => titles.indexOf(item.dataValues.title) === -1)
+        return data.filter((item) => titles.indexOf(item.title) === -1)
 
     }
 

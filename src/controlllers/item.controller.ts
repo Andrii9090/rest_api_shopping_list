@@ -87,14 +87,16 @@ class ItemController extends Controller {
                 order: [['is_active', 'DESC'], ['updatedAt', 'DESC']]
             })
                 .then((data) => {
+                    const titles: string[] = []
                     let dataTosend = data.map((item) => {
+                        titles.push(item.dataValues.title)
                         return {
                             ...item.dataValues,
                             image: item.dataValues.image ? this.getImageUrl(item.dataValues.id) : null,
                         }
                     })
                     if (req.query.q) {
-                        dataTosend = this.filteredData(dataTosend)
+                        dataTosend = this.filteredData(dataTosend, titles)
                     }
                     this.sendResponse(res, { isError: false, data: dataTosend })
                 })
@@ -104,9 +106,9 @@ class ItemController extends Controller {
         }
     }
 
-    filteredData(data: Model<any, any>[]) {
-        const dataItems: string[] = []
-        return data.filter((item) => dataItems.indexOf(item.dataValues.title) === -1)
+    filteredData(data: Model<any, any>[], titles: string[]) {
+
+        return data.filter((item) => titles.indexOf(item.dataValues.title) === -1)
 
     }
 

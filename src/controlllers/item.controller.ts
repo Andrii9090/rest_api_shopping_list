@@ -107,10 +107,10 @@ class ItemController extends Controller {
     filteredData(data: any[]) {
         const titles: string[] = []
         return data.filter((item) => {
-            if (titles.includes(item.title)) {
+            if (titles.includes(item.title.toLowerCase().trim())) {
                 return false
             }
-            titles.push(item.title)
+            titles.push(item.title.toLowerCase().trim())
             return true
         })
 

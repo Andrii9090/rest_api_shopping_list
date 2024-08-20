@@ -86,10 +86,10 @@ class ItemController extends Controller {
                 order: [['is_active', 'DESC'], ['updatedAt', 'DESC']]
             })
                 .then((data) => {
-                    const dataItems = new Set()
+                    const dataItems: string[] = []
                     const dataTosend = data.map((item) => {
-                        if (!dataItems.has(item.dataValues.title)) {
-                            dataItems.add(item.dataValues.title)
+                        if (dataItems.indexOf(item.dataValues.title) === -1) {
+                            dataItems.push(item.dataValues.title)
                             return {
                                 ...item.dataValues,
                                 image: item.dataValues.image ? this.getImageUrl(item.dataValues.id) : null,

@@ -10,7 +10,6 @@ import { userHasPermission } from "../helpers/permission.helper"
 import { AuthRequest } from "../helpers/authenticate.helper"
 import config from "../config"
 import imageToBase64 from "image-to-base64"
-import { Model } from "sequelize-typescript"
 
 
 class ItemController extends Controller {

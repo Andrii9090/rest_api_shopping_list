@@ -47,10 +47,10 @@ class UserController {
                 const token = this.generateToken(user.id)
                 this.sendResponse(res, { isError: false, data: { token } })
             } else {
-                this.sendResponse(res, { isError: true, msg: 'Wrong password' })
+                this.sendResponse(res, { isError: true, msg: 'Error! Login or password incorrect!' })
             }
         } else {
-            this.sendResponse(res, { isError: true, msg: 'User not found' })
+            this.sendResponse(res, { isError: true, msg: 'Error! Login or password incorrect!' })
         }
     }
     private generateToken(id: number) {
